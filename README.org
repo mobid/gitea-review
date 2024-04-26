@@ -1,0 +1,9 @@
+Pull request review package for Gitea.
+
+You can invoke ~gitea-review~ for magit status or forge PR view
+buffer.
+
+Place comment with =m= and send them with =C-c C-c=. Before that you
+will be prompted for main review comment and action.
+
+If you are using =embark-vc= package, =g= key on PR will open the review.
