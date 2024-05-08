@@ -525,17 +525,22 @@ This code is similar to `diff-split-hunk'."
   (recursive-edit)
   (substring-no-properties string))
 
-(defun gitea-review-find-file ()
-  "Find file at point."
-  (interactive)
-  (let ((old? (gitea-review--hunk-old?))
-        (file (gitea-review--hunk-file))
-        (line (1- (gitea-review--hunk-line)))
-        (col (1- (current-column))))
-    (magit-find-file (if old?
-                         (oref gitea-review-pr base-rev)
-                       (oref gitea-review-pr head-rev))
-                     file)
+(defun gitea-review-find-file (arg)
+  "Find file at point.
+
+With ARG force to show current file status."
+  (interactive "P")
+  (let* ((old? (gitea-review--hunk-old?))
+         (file (gitea-review--hunk-file))
+         (line (1- (gitea-review--hunk-line)))
+         (col (1- (current-column)))
+         (rev (if old?
+                  (oref gitea-review-pr base-rev)
+                (oref gitea-review-pr head-rev)))
+         (current-rev (magit-rev-hash (magit-headish))))
+    (if (or arg (string= rev current-rev))
+        (find-file (magit-expand-git-file-name file))
+      (magit-find-file rev file))
     (goto-char (point-min))
     (forward-line (1- line))
     (forward-char col)))
