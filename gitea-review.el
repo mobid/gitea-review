@@ -212,6 +212,8 @@ REVIEWS - alist of reviews fetched from api
 COMMENTS - `gitea-comment' list"
   (with-current-buffer (get-buffer-create (format "review: #%s - %s" (oref pullreq number) (oref pullreq title)))
     (gitea-review-mode)
+    (setq-local diff-vc-backend 'Git)
+    (setq-local diff-vc-revisions (list (oref pullreq base-rev) (oref pullreq head-rev)))
     (let ((inhibit-read-only t))
       (erase-buffer)
       (dolist (review reviews (insert "======================================\n"))
