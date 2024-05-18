@@ -246,7 +246,7 @@ proper comment threads will be created (in chronological order)."
         (< l1 l2)
       (let ((d1 (gitea-comment-created c1))
             (d2 (gitea-comment-created c2)))
-        (compare-strings d1 nil nil d2 nil nil)))))
+        (string< d1 d2)))))
 
 (defun gitea-review--display (comments)
   "Display COMMENTS with placing them to proper position in diff."
