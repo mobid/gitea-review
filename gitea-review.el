@@ -390,7 +390,9 @@ OLD-LINE take precedence over NEW-LINE, only one should be given."
   "Goto change line for current position.
 
 This function do it's job, when cursor is placed on the comment."
-  (re-search-backward "^\\(-\\|\\+\\| \\)"))
+  (let ((rx "^\\(-\\|\\+\\| \\)"))
+    (or (looking-at rx)
+        (re-search-backward rx))))
 
 (defun gitea-review--hunk-old? ()
   "Return t if line at point is deleted."
