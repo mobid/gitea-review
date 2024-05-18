@@ -451,7 +451,7 @@ This code is similar to `diff-split-hunk'."
                                          :old-line (and old? line)
                                          :new-line (and (not old?) line)
                                          :new t)))
-        (emacs-lock-mode +1)
+        (emacs-lock-mode 'exit)
         (gitea-review--place-comment comment)
         (setq gitea-review-comments (append gitea-review-comments (list comment)))
         (gitea-review-update-header)))))
