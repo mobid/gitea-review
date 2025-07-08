@@ -554,11 +554,8 @@ With ARG force to show current file status."
   (let ((pr gitea-review-pr))
     (setq header-line-format
           (concat (format "#%s %s" (oref pr number) (oref pr title))
-                  (when-let ((cs (gitea-review-comments)))
+                  (and-let* ((cs (gitea-review-comments)))
                     (format " (%s pending comments)" (length cs)))))))
-
-
-
 
 (defun gitea-review--sort-comments ()
   "Sort comments to ensure correct display.
