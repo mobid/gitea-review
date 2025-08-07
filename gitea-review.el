@@ -47,7 +47,8 @@
 (defface gitea-review-comment-sign
   '((t :foreground "black"
        :background "black"))
-  "Face used for diff comment sign.")
+  "Face used for diff comment sign."
+  :group 'gitea-review)
 
 (defvar-local gitea-review-comments nil
   "List of all gitea comments.
@@ -210,6 +211,8 @@ PULLREQ - forge pull request
 DIFF - string with diff
 REVIEWS - alist of reviews fetched from api
 COMMENTS - `gitea-comment' list"
+  (unless diff
+    (error "Empty diff"))
   (with-current-buffer (get-buffer-create (format "review: #%s - %s" (oref pullreq number) (oref pullreq title)))
     (gitea-review-mode)
     (setq-local diff-vc-backend 'Git)
@@ -510,7 +513,7 @@ This code is similar to `diff-split-hunk'."
         `((body . ,body)
           (event . ,action)
           (commit_id . ,(oref pr head-rev))
-          ,@(when comments `((comments . ,comments))))
+          ,@(when comments `((comments . ,(vconcat comments)))))
         :callback (lambda (&rest _args)
                     (with-current-buffer buffer
                       (revert-buffer)))))))
